@@ -107,7 +107,7 @@ public class DefaultRepeat<T> extends AbstractRetry<T, Long> implements Repeat<T
 	}
 
 	@Override
-	public Publisher<Long> apply(Flux<Long> companionValues) {
+	public Publisher<?> apply(Flux<Long> companionValues) {
 		Instant timeoutInstant = calculateTimeout();
 		DefaultContext<T> context = new DefaultContext<>(applicationContext, 0, null, -1L);
 		return companionValues

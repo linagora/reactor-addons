@@ -47,7 +47,7 @@ import reactor.core.scheduler.Scheduler;
  *
  * @param <T> Application context type
  */
-public interface Retry<T> extends Function<Flux<Throwable>, Publisher<Long>> {
+public interface Retry<T> extends Function<Flux<Throwable>, Publisher<?>> {
 
 	/**
 	 * Returns a retry function that retries any exception, once.

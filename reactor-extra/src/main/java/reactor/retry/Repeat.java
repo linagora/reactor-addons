@@ -53,7 +53,7 @@ import reactor.core.scheduler.Scheduler;
  *
  * @param <T> Application context type
  */
-public interface Repeat<T> extends Function<Flux<Long>, Publisher<Long>> {
+public interface Repeat<T> extends Function<Flux<Long>, Publisher<?>> {
 
 	/**
 	 * Repeat function that repeats only if the predicate returns true.

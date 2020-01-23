@@ -31,7 +31,7 @@ import reactor.util.Logger;
 import reactor.util.Loggers;
 import reactor.util.annotation.Nullable;
 
-public abstract class AbstractRetry<T, S> implements Function<Flux<S>, Publisher<Long>> {
+public abstract class AbstractRetry<T, S> implements Function<Flux<S>, Publisher<?>> {
 
 	static final Logger log = Loggers.getLogger(AbstractRetry.class);
 
@@ -93,7 +93,7 @@ public abstract class AbstractRetry<T, S> implements Function<Flux<S>, Publisher
 			return new BackoffDelay(minBackoff, maxBackoff, jitteredBackoff);
 	}
 
-	Publisher<Long> retryMono(Duration delay) {
+	Mono<?> retryMono(Duration delay) {
 		if (delay == Duration.ZERO)
 			return Mono.just(0L);
 		else if (backoffScheduler == null)

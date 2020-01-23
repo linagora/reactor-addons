@@ -66,8 +66,8 @@ public class RetryTestUtils {
 	}
 
 	static <T> void testReuseInParallel(int threads, int iterations,
-			Function<Backoff, Function<Flux<T>, Publisher<Long>>> retryOrRepeat,
-			Consumer<Function<Flux<T>, Publisher<Long>>> testTask) throws Exception {
+			Function<Backoff, Function<Flux<T>, Publisher<?>>> retryOrRepeat,
+			Consumer<Function<Flux<T>, Publisher<?>>> testTask) throws Exception {
 		int repeatCount = iterations - 1;
 		AtomicInteger nextBackoff = new AtomicInteger();
 		// Keep track of the number of backoff invocations per instance
@@ -97,7 +97,7 @@ public class RetryTestUtils {
 				return new BackoffDelay(backoff);
 			}
 		};
-		Function<Flux<T>, Publisher<Long>> retryFunc = retryOrRepeat.apply(customBackoff);
+		Function<Flux<T>, Publisher<?>> retryFunc = retryOrRepeat.apply(customBackoff);
 		ExecutorService executor = Executors.newFixedThreadPool(threads);
 		List<Future<?>> futures = new ArrayList<>();
 		try {

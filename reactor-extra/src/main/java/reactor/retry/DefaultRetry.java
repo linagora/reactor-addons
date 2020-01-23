@@ -108,14 +108,14 @@ public class DefaultRetry<T> extends AbstractRetry<T, Throwable> implements Retr
 	}
 
 	@Override
-	public Publisher<Long> apply(Flux<Throwable> errors) {
+	public Publisher<?> apply(Flux<Throwable> errors) {
 		Instant timeoutInstant = calculateTimeout();
 		DefaultContext<T> context = new DefaultContext<>(applicationContext, 0L, null, null);
 		return errors.index()
 				.concatMap(tuple -> retry(tuple.getT2(), tuple.getT1() + 1L, timeoutInstant, context));
 	}
 
-	Publisher<Long> retry(Throwable e, long iteration, Instant timeoutInstant, DefaultContext<T> context) {
+	Publisher<?> retry(Throwable e, long iteration, Instant timeoutInstant, DefaultContext<T> context) {
 		DefaultContext<T> tmpContext = new DefaultContext<>(applicationContext, iteration, context.lastBackoff, e);
 		BackoffDelay nextBackoff = calculateBackoff(tmpContext, timeoutInstant);
 		DefaultContext<T> retryContext = new DefaultContext<T>(applicationContext, iteration, nextBackoff, e);
